@@ -1,3 +1,4 @@
+import React from "react";
 import InvestmentDetails from "./components/InvestmentDetails";
 
 function App() {
