@@ -1,21 +1,11 @@
-import "./App.css";
+import InvestmentDetails from "./components/InvestmentDetails";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="qmcal-bg-gray-800">
+      <div className="qmcal-container qmcal-mx-auto sm:qmcal-px-6 lg:qmcal-px-8">
+        <InvestmentDetails />
+      </div>
     </div>
   );
 }
