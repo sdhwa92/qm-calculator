@@ -1,8 +1,8 @@
 import { combineReducers } from "@reduxjs/toolkit";
-import investmentSlice from "./slices/investmentSlice";
+import calculatorSlice from "./slices/calculatorSlice";
 
 const rootReducer = combineReducers({
-  investment: investmentSlice,
+  calculator: calculatorSlice,
 });
 
 export default rootReducer;
