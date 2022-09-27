@@ -13,6 +13,9 @@ const initialState = {
 const investmentSlice = createSlice({
   name: "investment",
   initialState,
+  reducers: {
+    updateInitialInvestmentAmount: () => {},
+  },
 });
 
 export default investmentSlice.reducer;
