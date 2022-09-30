@@ -1,6 +1,6 @@
-import { useAppSelector } from "../store";
-import { selectInitialInvestAmount } from "../store/slices/calculatorSlice";
-import { designStructure } from "../services/calculatorService";
+import { useAppSelector } from "../../store";
+import { selectInitialInvestAmount } from "../../store/slices/calculatorSlice";
+import { designStructure } from "../../services/calculatorService";
 
 const InvestmentSummary = () => {
   const amount = useAppSelector(selectInitialInvestAmount);

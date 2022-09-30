@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useAppSelector, useAppDispatch } from "../store";
+import { useAppSelector, useAppDispatch } from "../../store";
 import {
   selectTotalHashCount,
   selectDecrementPercents,
@@ -7,9 +7,9 @@ import {
   selectInitialInvestAmount,
   updateHashflow,
   selectHashflow,
-} from "../store/slices/calculatorSlice";
-import { decrementHash } from "../services/calculatorService";
-import { getNumberOfDaysAfterFromADate } from "../services/dayJsService";
+} from "../../store/slices/calculatorSlice";
+import { decrementHash } from "../../services/calculatorService";
+import { getNumberOfDaysAfterFromADate } from "../../services/dayJsService";
 
 const CalculatorResults = () => {
   const dispatch = useAppDispatch();

@@ -31,8 +31,13 @@ export const decrementHash = (
   let hashCount = initialHashCount;
   let accumulatedIncome = 0;
   let count = 0;
+  console.log("Create table");
+  console.log("hash count: ", hashCount);
+  console.log("hashMiningPower: ", hashMiningPower);
+  console.log("initial investment: ", initialInvestAmount);
 
   while (accumulatedIncome < initialInvestAmount) {
+    console.log(count);
     const income = roundUpDecimals(hashCount * hashMiningPower, 2);
     accumulatedIncome = roundUpDecimals(accumulatedIncome + income, 2);
     results = {

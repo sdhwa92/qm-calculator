@@ -3,7 +3,8 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const initialState = {
   currency: "usd",
-  initialInvestAmount: 11200,
+  initialInvestAmount: 0,
+  minimumAmount: 1500,
   decrementPercent: {
     basic: 0.005,
     share: 0.005,
@@ -15,7 +16,7 @@ const initialState = {
   totalHashCount: {
     basic: 0,
     share: 0,
-    accelerated: 9025,
+    accelerated: 0,
   },
   hashflow: {},
 };
@@ -26,6 +27,47 @@ const calculatorSlice = createSlice({
   reducers: {
     updateInitialInvestAmount: (state, action: PayloadAction<number>) => {
       state.initialInvestAmount = action.payload;
+      // Update the totalHashCount based on the 1-3-1 structure for now
+      // which means the initial investment amount should be minimum $1500
+      if (state.initialInvestAmount > state.minimumAmount) {
+        let amount = state.initialInvestAmount;
+        let hashCount = 0;
+        // level 0
+        amount = amount - 300;
+        // level 1 x 2
+        for (let i = 0; i < 2; i += 1) {
+          amount = amount - 300;
+          hashCount = hashCount + 300 * 0.5;
+        }
+        //level 2
+        amount = amount - 300;
+        for (let i = 1; i < 3; i += 1) {
+          let accRate = 0;
+          if (i === 1) {
+            accRate = 0.5;
+          } else if (i === 2) {
+            accRate = 0.25;
+          }
+          hashCount = hashCount + 300 * accRate;
+        }
+        // level 3
+        for (let i = 1; i < 4; i += 1) {
+          let accRate = 0;
+          if (i === 1) {
+            accRate = 0.5;
+          } else if (i === 2) {
+            accRate = 0.25;
+          } else if (i === 3) {
+            accRate = 0.1;
+          }
+          hashCount = hashCount + amount * accRate;
+        }
+
+        // Update the total accelerated hash count
+        state.totalHashCount.accelerated = hashCount;
+      } else {
+        console.error("Minimum investment amount is $1500 to calculate");
+      }
     },
     updateCurrency: (state, action: PayloadAction<string>) => {
       state.currency = action.payload;
@@ -41,11 +83,18 @@ const calculatorSlice = createSlice({
     ) => {
       state.hashflow = action.payload;
     },
+    updateMiningPower: (state, action: PayloadAction<number>) => {
+      state.miningPowerPerHashPerDay.accelerated = action.payload;
+    },
   },
 });
 
-export const { updateInitialInvestAmount, updateCurrency, updateHashflow } =
-  calculatorSlice.actions;
+export const {
+  updateInitialInvestAmount,
+  updateCurrency,
+  updateHashflow,
+  updateMiningPower,
+} = calculatorSlice.actions;
 
 export const selectDecrementPercents = (state: RootState) =>
   state.calculator.decrementPercent;
@@ -57,5 +106,7 @@ export const selectInitialInvestAmount = (state: RootState) =>
 export const selectTotalHashCount = (state: RootState) =>
   state.calculator.totalHashCount;
 export const selectHashflow = (state: RootState) => state.calculator.hashflow;
+export const selectMinimumAmount = (state: RootState) =>
+  state.calculator.minimumAmount;
 
 export default calculatorSlice.reducer;
