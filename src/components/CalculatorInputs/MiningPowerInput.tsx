@@ -30,6 +30,7 @@ const MiningPowerInput = () => {
           id="miningPower"
           name="miningPower"
           type="number"
+          step="any"
           className="
                   qmcal-block 
                   qmcal-w-full 
