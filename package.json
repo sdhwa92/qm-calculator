@@ -29,7 +29,7 @@
     "build": "webpack --env production",
     "build:dev": "webpack --env development",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d dist"
   },
   "eslintConfig": {
     "extends": [
