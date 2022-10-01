@@ -1,5 +1,5 @@
 {
-  "name": "qm-v3-pool-calculator",
+  "name": "qm-calculator",
   "version": "0.1.0",
   "dependencies": {
     "@heroicons/react": "^2.0.11",
@@ -25,7 +25,8 @@
   },
   "scripts": {
     "start": "webpack-dev-server --open",
-    "build": "webpack"
+    "build": "webpack --env production",
+    "build:dev": "webpack --env development"
   },
   "eslintConfig": {
     "extends": [
