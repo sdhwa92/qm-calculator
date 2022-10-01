@@ -164,7 +164,11 @@ const CalculatorResults = () => {
 
     return (
       <div className="qmcal-px-4 sm:qmcal-px-6 lg:qmcal-px-8">
-        <div className="qmcal-text-center">
+        <div
+          className="
+            qmcal-text-center
+          "
+        >
           <p>값을 입력한 후 계산 버튼을 눌러주세요.</p>
         </div>
       </div>
