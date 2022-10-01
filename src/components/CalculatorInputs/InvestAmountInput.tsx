@@ -1,9 +1,7 @@
-import { ChangeEvent, useEffect } from "react";
+import { ChangeEvent } from "react";
 import { useAppSelector, useAppDispatch } from "../../store";
-import { useDebounceChange } from "../../hooks";
 import {
   selectInitialInvestAmount,
-  updateMiningPower,
   updateInitialInvestAmount,
   selectMinimumAmount,
 } from "../../store/slices/calculatorSlice";
@@ -19,14 +17,6 @@ const InvestAmountInput = () => {
       dispatch(updateInitialInvestAmount(amount));
     }
   };
-
-  const debounceChangeHandler = useDebounceChange(onChangeHandler, 300, []);
-
-  useEffect(() => {
-    return () => {
-      debounceChangeHandler.cancel();
-    };
-  }, []);
 
   return (
     <div>
@@ -62,7 +52,7 @@ const InvestAmountInput = () => {
                   sm:qmcal-text-sm
                 "
           defaultValue={initialInvestAmount}
-          onChange={debounceChangeHandler}
+          onChange={onChangeHandler}
         />
       </div>
     </div>

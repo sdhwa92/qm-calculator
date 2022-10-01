@@ -1,6 +1,5 @@
 import { ChangeEvent } from "react";
 import { useAppSelector, useAppDispatch } from "../../store";
-import { useDebounceChange } from "../../hooks";
 import {
   selectMiningPowers,
   updateMiningPower,
@@ -18,15 +17,13 @@ const MiningPowerInput = () => {
     }
   };
 
-  const debounceChangeHandler = useDebounceChange(onChangeHandler, 300, []);
-
   return (
     <div>
       <label
         htmlFor="currency"
         className="qmcal-block qmcal-text-base qmcal-font-medium qmcal-text-gray-300"
       >
-        1 가속해시 채굴량
+        1 가속해시 채굴량 (24 시간 기준)
       </label>
       <div className="qmcal-relative qmcal-mt-1.5">
         <input
@@ -54,7 +51,7 @@ const MiningPowerInput = () => {
                   sm:qmcal-text-sm
                 "
           defaultValue={miningPower}
-          onChange={debounceChangeHandler}
+          onChange={onChangeHandler}
         />
       </div>
     </div>

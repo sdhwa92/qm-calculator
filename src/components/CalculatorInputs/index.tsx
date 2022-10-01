@@ -1,15 +1,40 @@
-import { useAppSelector } from "../../store";
+import { FormEvent } from "react";
+import { useAppSelector, useAppDispatch } from "../../store";
 import {
   selectDecrementPercents,
   selectMiningPowers,
+  selectTotalHashCount,
+  selectInitialInvestAmount,
+  updateHashflow,
 } from "../../store/slices/calculatorSlice";
+import { decrementHash } from "../../services/calculatorService";
 import SelectCurrency from "./SelectCurrency";
 import InvestAmountInput from "./InvestAmountInput";
 import MiningPowerInput from "./MiningPowerInput";
 
 function CalculatorInputs() {
+  const dispatch = useAppDispatch();
+
   const { basic, share, accelerated } = useAppSelector(selectDecrementPercents);
   const { accelerated: miningPower } = useAppSelector(selectMiningPowers);
+  const { accelerated: totalAccHashCount } =
+    useAppSelector(selectTotalHashCount);
+
+  const initialAmount = useAppSelector(selectInitialInvestAmount);
+
+  const handleOnSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    dispatch(
+      updateHashflow(
+        decrementHash(
+          initialAmount,
+          totalAccHashCount,
+          accelerated,
+          miningPower
+        )
+      )
+    );
+  };
 
   return (
     <div
@@ -18,7 +43,7 @@ function CalculatorInputs() {
           qmcal-max-w-7xl 
           qmcal-py-16 
           qmcal-px-4 
-          sm:qmcal-py-24 
+          sm:qmcal-py-14 
           sm:qmcal-px-6 
           lg:qmcal-flex 
           lg:qmcal-justify-between 
@@ -47,15 +72,39 @@ function CalculatorInputs() {
         </div>
       </div>
       <div className="qmcal-w-full qmcal-max-w-xs">
-        <div>
-          <SelectCurrency />
-        </div>
-        <div className="qmcal-mt-5">
-          <InvestAmountInput />
-        </div>
-        <div className="qmcal-mt-5">
-          <MiningPowerInput />
-        </div>
+        <form onSubmit={handleOnSubmit}>
+          <div>
+            <SelectCurrency />
+          </div>
+          <div className="qmcal-mt-5">
+            <InvestAmountInput />
+          </div>
+          <div className="qmcal-mt-5">
+            <MiningPowerInput />
+          </div>
+          <div className="qmcal-mt-5">
+            <div>
+              <button
+                type="submit"
+                className="
+                qmcal-inline-flex
+                qmcal-items-center
+                qmcal-rounded-md
+                qmcal-border
+                qmcal-bg-white
+                qmcal-px-4
+                qmcal-py-2
+                qmcal-text-sm
+                qmcal-font-medium
+                qmcal-text-gray-700
+                hover:qmcal-bg-gray-300
+              "
+              >
+                계산
+              </button>
+            </div>
+          </div>
+        </form>
       </div>
     </div>
   );

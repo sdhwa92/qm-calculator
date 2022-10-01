@@ -20,6 +20,7 @@ const SelectCurrency = () => {
       </label>
       <div className="qmcal-relative qmcal-mt-1.5">
         <select
+          disabled
           id="currency"
           name="currency"
           className="
