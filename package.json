@@ -27,7 +27,9 @@
   "scripts": {
     "start": "webpack-dev-server --open",
     "build": "webpack --env production",
-    "build:dev": "webpack --env development"
+    "build:dev": "webpack --env development",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
