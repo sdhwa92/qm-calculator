@@ -8,8 +8,8 @@ import { CalculateCashflowDto } from './dto/calculate-cashflow.dto';
 export class CashflowsController {
   constructor(private cashflowService: CashflowsService) {}
 
-  @Post('calculate')
-  calculate(@Body() calculateCashflowDto: CalculateCashflowDto) {
+  @Post('create')
+  create(@Body() calculateCashflowDto: CalculateCashflowDto) {
     return this.cashflowService.calculate(calculateCashflowDto);
   }
 }
