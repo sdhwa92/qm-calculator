@@ -24,7 +24,7 @@ const CalculatorResults = () => {
   ) => {
     return (
       <tr
-        key={hashAmount}
+        key={index}
         className={index % 2 === 0 ? undefined : "qmcal-bg-slate-700"}
       >
         <td className="qmcal-whitespace-nowrap qmcal-py-4 qmcal-pl-4 qmcal-pr-3 qmcal-text-sm qmcal-text-gray-50 sm:qmcal-pl-6">

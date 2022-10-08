@@ -8,11 +8,16 @@ export async function postCashflow(
   hashPower: number,
   decrementRate: number
 ) {
-  const res = await axios.post(`${baseURL}/cashflows/create`, {
-    initialInvestmentAmount,
-    initialHashCount,
-    hashPower,
-    decrementRate,
-  });
-  return res;
+  try {
+    const { data } = await axios.post(`${baseURL}/cashflows/create`, {
+      initialInvestmentAmount,
+      initialHashCount,
+      hashPower,
+      decrementRate,
+    });
+
+    return data;
+  } catch (e) {
+    console.error(e);
+  }
 }

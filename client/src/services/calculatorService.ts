@@ -1,5 +1,3 @@
-import { roundUpDecimals } from "../helper";
-
 export const designStructure = (
   usdtAmount: number
 ): "1-3-1" | "1-2" | "1-1" | "1" | "none" => {
@@ -19,39 +17,4 @@ export const designStructure = (
     // 0
     return "none";
   }
-};
-
-export const decrementHash = (
-  initialInvestAmount: number,
-  initialHashCount: number,
-  decrementRate: number,
-  hashMiningPower: number
-) => {
-  let results = {};
-  let hashCount = initialHashCount;
-  let accumulatedIncome = 0;
-  let count = 0;
-
-  while (accumulatedIncome < initialInvestAmount) {
-    const previousAccumulatedIncome = accumulatedIncome;
-    const income = roundUpDecimals(hashCount * hashMiningPower, 2);
-    accumulatedIncome = roundUpDecimals(accumulatedIncome + income, 2);
-
-    if (previousAccumulatedIncome === accumulatedIncome) break;
-
-    results = {
-      ...results,
-      [count]: {
-        hashAmount: Math.round(hashCount),
-        income,
-        accumulatedIncome,
-      },
-    };
-
-    hashCount = hashCount - hashCount * decrementRate;
-
-    count += 1;
-  }
-
-  return results;
 };

@@ -3,11 +3,7 @@ import { useAppSelector, useAppDispatch } from "../../store";
 import {
   selectDecrementPercents,
   selectMiningPowers,
-  selectTotalHashCount,
-  selectInitialInvestAmount,
-  updateHashflow,
 } from "../../store/slices/calculatorSlice";
-import { decrementHash } from "../../services/calculatorService";
 import SelectCurrency from "./SelectCurrency";
 import InvestAmountInput from "./InvestAmountInput";
 import MiningPowerInput from "./MiningPowerInput";
@@ -18,24 +14,10 @@ function CalculatorInputs() {
 
   const { basic, share, accelerated } = useAppSelector(selectDecrementPercents);
   const { accelerated: miningPower } = useAppSelector(selectMiningPowers);
-  const { accelerated: totalAccHashCount } =
-    useAppSelector(selectTotalHashCount);
-
-  const initialAmount = useAppSelector(selectInitialInvestAmount);
 
   const handleOnSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // dispatch(fetchCashflow());
-    dispatch(
-      updateHashflow(
-        decrementHash(
-          initialAmount,
-          totalAccHashCount,
-          accelerated,
-          miningPower
-        )
-      )
-    );
+    dispatch(fetchCashflow());
   };
 
   return (

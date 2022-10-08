@@ -24,9 +24,21 @@ const initialState = {
 
 export const fetchCashflow = createAsyncThunk(
   "cashflows/postCashflow",
-  async () => {
-    console.log("test");
-    const res = await postCashflow(10000, 8005, 0.035, 0.015);
+  async (_, { getState }) => {
+    const {
+      calculator: {
+        initialInvestAmount,
+        totalHashCount: { accelerated: totalAccHashCount },
+        miningPowerPerHashPerDay: { accelerated: accHashMiningPower },
+        decrementPercent: { accelerated: accHashDecrementPercent },
+      },
+    }: RootState = getState() as RootState;
+    const res = await postCashflow(
+      initialInvestAmount,
+      totalAccHashCount,
+      accHashMiningPower,
+      accHashDecrementPercent
+    );
     return res;
   }
 );
@@ -82,34 +94,19 @@ const calculatorSlice = createSlice({
     updateCurrency: (state, action: PayloadAction<string>) => {
       state.currency = action.payload;
     },
-    updateHashflow: (
-      state,
-      action: PayloadAction<
-        Record<
-          number,
-          { hashAmount: number; income: number; accumulatedIncome: number }
-        >
-      >
-    ) => {
-      state.hashflow = action.payload;
-    },
     updateMiningPower: (state, action: PayloadAction<number>) => {
       state.miningPowerPerHashPerDay.accelerated = action.payload;
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchCashflow.pending, (state) => {
-      console.log("pending");
+    builder.addCase(fetchCashflow.fulfilled, (state, action) => {
+      state.hashflow = action.payload;
     });
   },
 });
 
-export const {
-  updateInitialInvestAmount,
-  updateCurrency,
-  updateHashflow,
-  updateMiningPower,
-} = calculatorSlice.actions;
+export const { updateInitialInvestAmount, updateCurrency, updateMiningPower } =
+  calculatorSlice.actions;
 
 export const selectDecrementPercents = (state: RootState) =>
   state.calculator.decrementPercent;
