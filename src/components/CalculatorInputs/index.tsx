@@ -11,6 +11,7 @@ import { decrementHash } from "../../services/calculatorService";
 import SelectCurrency from "./SelectCurrency";
 import InvestAmountInput from "./InvestAmountInput";
 import MiningPowerInput from "./MiningPowerInput";
+import { fetchCashflow } from "../../store/slices/calculatorSlice";
 
 function CalculatorInputs() {
   const dispatch = useAppDispatch();
@@ -24,6 +25,7 @@ function CalculatorInputs() {
 
   const handleOnSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    // dispatch(fetchCashflow());
     dispatch(
       updateHashflow(
         decrementHash(

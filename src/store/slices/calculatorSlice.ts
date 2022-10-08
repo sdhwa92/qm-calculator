@@ -1,5 +1,6 @@
 import { RootState } from "./../index";
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
+import { postCashflow } from "../../apis/qmManagerApi";
 
 const initialState = {
   currency: "usd",
@@ -20,6 +21,15 @@ const initialState = {
   },
   hashflow: {},
 };
+
+export const fetchCashflow = createAsyncThunk(
+  "cashflows/postCashflow",
+  async () => {
+    console.log("test");
+    const res = await postCashflow(10000, 8005, 0.035, 0.015);
+    return res;
+  }
+);
 
 const calculatorSlice = createSlice({
   name: "calculator",
@@ -86,6 +96,11 @@ const calculatorSlice = createSlice({
     updateMiningPower: (state, action: PayloadAction<number>) => {
       state.miningPowerPerHashPerDay.accelerated = action.payload;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchCashflow.pending, (state) => {
+      console.log("pending");
+    });
   },
 });
 
