@@ -5,6 +5,7 @@ import {
   selectMiningPowers,
 } from "../../store/slices/calculatorSlice";
 import SelectCurrency from "./SelectCurrency";
+import AcceleratedHashAmount from "./AcceleratedHashAmount";
 import InvestAmountInput from "./InvestAmountInput";
 import MiningPowerInput from "./MiningPowerInput";
 import { fetchCashflow } from "../../store/slices/calculatorSlice";
@@ -58,10 +59,10 @@ function CalculatorInputs() {
       <div className="qmcal-w-full qmcal-max-w-xs">
         <form onSubmit={handleOnSubmit}>
           <div>
-            <SelectCurrency />
+            <InvestAmountInput />
           </div>
           <div className="qmcal-mt-5">
-            <InvestAmountInput />
+            <AcceleratedHashAmount />
           </div>
           <div className="qmcal-mt-5">
             <MiningPowerInput />

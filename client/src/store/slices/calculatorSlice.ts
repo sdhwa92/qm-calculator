@@ -1,10 +1,23 @@
 import { RootState } from "./../index";
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { postCashflow } from "../../apis/qmManagerApi";
+import { HashAmount } from "../../types";
 
-const initialState = {
+type CalculatorInitialState = {
+  currency: string;
+  initialInvestAmount: number;
+  initialAccHashAmount: number;
+  minimumAmount: number;
+  decrementPercent: HashAmount;
+  miningPowerPerHashPerDay: HashAmount;
+  totalHashCount: HashAmount;
+  hashflow: Record<string, HashAmount>;
+};
+
+const initialState: CalculatorInitialState = {
   currency: "usd",
   initialInvestAmount: 0,
+  initialAccHashAmount: 0,
   minimumAmount: 1500,
   decrementPercent: {
     basic: 0.005,
@@ -13,6 +26,8 @@ const initialState = {
   },
   miningPowerPerHashPerDay: {
     accelerated: 0.0388,
+    share: 0,
+    basic: 0,
   },
   totalHashCount: {
     basic: 0,
@@ -28,14 +43,14 @@ export const fetchCashflow = createAsyncThunk(
     const {
       calculator: {
         initialInvestAmount,
-        totalHashCount: { accelerated: totalAccHashCount },
+        initialAccHashAmount,
         miningPowerPerHashPerDay: { accelerated: accHashMiningPower },
         decrementPercent: { accelerated: accHashDecrementPercent },
       },
     }: RootState = getState() as RootState;
     const res = await postCashflow(
       initialInvestAmount,
-      totalAccHashCount,
+      initialAccHashAmount,
       accHashMiningPower,
       accHashDecrementPercent
     );
@@ -97,6 +112,9 @@ const calculatorSlice = createSlice({
     updateMiningPower: (state, action: PayloadAction<number>) => {
       state.miningPowerPerHashPerDay.accelerated = action.payload;
     },
+    updateInitialAccHashAmount: (state, action: PayloadAction<number>) => {
+      state.initialAccHashAmount = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchCashflow.fulfilled, (state, action) => {
@@ -105,8 +123,12 @@ const calculatorSlice = createSlice({
   },
 });
 
-export const { updateInitialInvestAmount, updateCurrency, updateMiningPower } =
-  calculatorSlice.actions;
+export const {
+  updateInitialInvestAmount,
+  updateCurrency,
+  updateMiningPower,
+  updateInitialAccHashAmount,
+} = calculatorSlice.actions;
 
 export const selectDecrementPercents = (state: RootState) =>
   state.calculator.decrementPercent;
@@ -120,5 +142,7 @@ export const selectTotalHashCount = (state: RootState) =>
 export const selectHashflow = (state: RootState) => state.calculator.hashflow;
 export const selectMinimumAmount = (state: RootState) =>
   state.calculator.minimumAmount;
+export const selectInitialAccHashAmount = (state: RootState) =>
+  state.calculator.initialAccHashAmount;
 
 export default calculatorSlice.reducer;
