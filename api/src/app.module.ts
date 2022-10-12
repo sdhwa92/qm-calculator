@@ -3,8 +3,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { CashflowsController } from './cashflows/cashflows.controller';
-import { CashflowsService } from './cashflows/cashflows.service';
+import { CashflowsModule } from './cashflows/cashflows.module';
 
 @Module({
   imports: [
@@ -12,8 +11,9 @@ import { CashflowsService } from './cashflows/cashflows.service';
       rootPath: join(__dirname, '..', '..', 'client', 'dist'),
       exclude: ['/api*'],
     }),
+    CashflowsModule,
   ],
-  controllers: [AppController, CashflowsController],
-  providers: [AppService, CashflowsService],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
