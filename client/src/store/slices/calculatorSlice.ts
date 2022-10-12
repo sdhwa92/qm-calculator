@@ -3,8 +3,10 @@ import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { postCashflow } from "../../apis/qmManagerApi";
 import { HashAmount } from "../../types";
 
+export const availableCurrencies = ["usd", "krw", "aud", "btc", "eth"];
+
 type CalculatorInitialState = {
-  currency: string;
+  currency: "usd" | "krw" | "aud" | "btc" | "eth";
   initialInvestAmount: number;
   initialAccHashAmount: number;
   minimumAmount: number;

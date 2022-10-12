@@ -4,7 +4,6 @@ import {
   selectDecrementPercents,
   selectMiningPowers,
 } from "../../store/slices/calculatorSlice";
-import SelectCurrency from "./SelectCurrency";
 import AcceleratedHashAmount from "./AcceleratedHashAmount";
 import InvestAmountInput from "./InvestAmountInput";
 import MiningPowerInput from "./MiningPowerInput";
