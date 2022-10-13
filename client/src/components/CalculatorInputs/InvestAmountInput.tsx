@@ -75,6 +75,7 @@ const InvestAmountInput = () => {
                 sm:qmcal-text-sm
               "
               defaultValue={selectedCurrency}
+              disabled
             >
               {availableCurrencies.map((currency) => (
                 <option value={currency}>{currency.toUpperCase()}</option>
