@@ -32,6 +32,7 @@
     "start": "webpack-dev-server --open",
     "build": "webpack --env production",
     "build:dev": "webpack --env development",
+    "heroku-predeploy": "npm install && npm run build",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },

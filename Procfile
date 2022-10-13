@@ -1,2 +1,2 @@
-web: cd client && npm build
+web: cd client && npm run heroku-predeploy
 web: npm start
