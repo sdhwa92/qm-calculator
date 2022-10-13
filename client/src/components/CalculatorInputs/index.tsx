@@ -3,37 +3,21 @@ import { useAppSelector, useAppDispatch } from "../../store";
 import {
   selectDecrementPercents,
   selectMiningPowers,
-  selectTotalHashCount,
-  selectInitialInvestAmount,
-  updateHashflow,
 } from "../../store/slices/calculatorSlice";
-import { decrementHash } from "../../services/calculatorService";
-import SelectCurrency from "./SelectCurrency";
+import AcceleratedHashAmount from "./AcceleratedHashAmount";
 import InvestAmountInput from "./InvestAmountInput";
 import MiningPowerInput from "./MiningPowerInput";
+import { fetchCashflow } from "../../store/slices/calculatorSlice";
 
 function CalculatorInputs() {
   const dispatch = useAppDispatch();
 
   const { basic, share, accelerated } = useAppSelector(selectDecrementPercents);
   const { accelerated: miningPower } = useAppSelector(selectMiningPowers);
-  const { accelerated: totalAccHashCount } =
-    useAppSelector(selectTotalHashCount);
-
-  const initialAmount = useAppSelector(selectInitialInvestAmount);
 
   const handleOnSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(
-      updateHashflow(
-        decrementHash(
-          initialAmount,
-          totalAccHashCount,
-          accelerated,
-          miningPower
-        )
-      )
-    );
+    dispatch(fetchCashflow());
   };
 
   return (
@@ -74,10 +58,10 @@ function CalculatorInputs() {
       <div className="qmcal-w-full qmcal-max-w-xs">
         <form onSubmit={handleOnSubmit}>
           <div>
-            <SelectCurrency />
+            <InvestAmountInput />
           </div>
           <div className="qmcal-mt-5">
-            <InvestAmountInput />
+            <AcceleratedHashAmount />
           </div>
           <div className="qmcal-mt-5">
             <MiningPowerInput />

@@ -1,9 +1,25 @@
 import { RootState } from "./../index";
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
+import { postCashflow } from "../../apis/qmManagerApi";
+import { HashAmount } from "../../types";
 
-const initialState = {
+export const availableCurrencies = ["usd", "krw", "aud", "btc", "eth"];
+
+type CalculatorInitialState = {
+  currency: "usd" | "krw" | "aud" | "btc" | "eth";
+  initialInvestAmount: number;
+  initialAccHashAmount: number;
+  minimumAmount: number;
+  decrementPercent: HashAmount;
+  miningPowerPerHashPerDay: HashAmount;
+  totalHashCount: HashAmount;
+  hashflow: Record<string, HashAmount>;
+};
+
+const initialState: CalculatorInitialState = {
   currency: "usd",
   initialInvestAmount: 0,
+  initialAccHashAmount: 0,
   minimumAmount: 1500,
   decrementPercent: {
     basic: 0.005,
@@ -12,6 +28,8 @@ const initialState = {
   },
   miningPowerPerHashPerDay: {
     accelerated: 0.0388,
+    share: 0,
+    basic: 0,
   },
   totalHashCount: {
     basic: 0,
@@ -20,6 +38,27 @@ const initialState = {
   },
   hashflow: {},
 };
+
+export const fetchCashflow = createAsyncThunk(
+  "cashflows/postCashflow",
+  async (_, { getState }) => {
+    const {
+      calculator: {
+        initialInvestAmount,
+        initialAccHashAmount,
+        miningPowerPerHashPerDay: { accelerated: accHashMiningPower },
+        decrementPercent: { accelerated: accHashDecrementPercent },
+      },
+    }: RootState = getState() as RootState;
+    const res = await postCashflow(
+      initialInvestAmount,
+      initialAccHashAmount,
+      accHashMiningPower,
+      accHashDecrementPercent
+    );
+    return res;
+  }
+);
 
 const calculatorSlice = createSlice({
   name: "calculator",
@@ -72,28 +111,25 @@ const calculatorSlice = createSlice({
     updateCurrency: (state, action: PayloadAction<string>) => {
       state.currency = action.payload;
     },
-    updateHashflow: (
-      state,
-      action: PayloadAction<
-        Record<
-          number,
-          { hashAmount: number; income: number; accumulatedIncome: number }
-        >
-      >
-    ) => {
-      state.hashflow = action.payload;
-    },
     updateMiningPower: (state, action: PayloadAction<number>) => {
       state.miningPowerPerHashPerDay.accelerated = action.payload;
     },
+    updateInitialAccHashAmount: (state, action: PayloadAction<number>) => {
+      state.initialAccHashAmount = action.payload;
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchCashflow.fulfilled, (state, action) => {
+      state.hashflow = action.payload;
+    });
   },
 });
 
 export const {
   updateInitialInvestAmount,
   updateCurrency,
-  updateHashflow,
   updateMiningPower,
+  updateInitialAccHashAmount,
 } = calculatorSlice.actions;
 
 export const selectDecrementPercents = (state: RootState) =>
@@ -108,5 +144,7 @@ export const selectTotalHashCount = (state: RootState) =>
 export const selectHashflow = (state: RootState) => state.calculator.hashflow;
 export const selectMinimumAmount = (state: RootState) =>
   state.calculator.minimumAmount;
+export const selectInitialAccHashAmount = (state: RootState) =>
+  state.calculator.initialAccHashAmount;
 
 export default calculatorSlice.reducer;
