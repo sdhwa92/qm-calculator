@@ -1,2 +1,2 @@
 web: cd client && npm build
-worker: cd api && npm start
+web: npm start
