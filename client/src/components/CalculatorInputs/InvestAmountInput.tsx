@@ -78,7 +78,9 @@ const InvestAmountInput = () => {
               disabled
             >
               {availableCurrencies.map((currency) => (
-                <option value={currency}>{currency.toUpperCase()}</option>
+                <option key={currency} value={currency}>
+                  {currency.toUpperCase()}
+                </option>
               ))}
             </select>
           </div>
