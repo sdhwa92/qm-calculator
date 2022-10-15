@@ -1,10 +1,11 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
+const { webpack } = require("webpack");
 
 module.exports = (env) => {
   const isProduction = env.production;
   const mode = isProduction ? "production" : "development";
-  console.log(mode);
+
   return {
     resolve: {
       extensions: [".tsx", ".ts", ".jsx", ".js", ".json"],
@@ -50,6 +51,9 @@ module.exports = (env) => {
         favicon: "./public/favicon.ico",
         filename: "index.html",
         manifest: "./public/manifest.json",
+      }),
+      new webpack.EnvironmentPlugin({
+        NODE_ENV: mode,
       }),
     ],
   };
