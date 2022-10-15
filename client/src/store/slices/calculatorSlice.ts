@@ -1,7 +1,7 @@
 import { RootState } from "./../index";
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { postCashflow } from "../../apis/qmManagerApi";
-import { HashAmount } from "../../types";
+import { HashAmount, Cashflow } from "../../types";
 
 export const availableCurrencies = ["usd", "krw", "aud", "btc", "eth"];
 
@@ -13,7 +13,7 @@ type CalculatorInitialState = {
   decrementPercent: HashAmount;
   miningPowerPerHashPerDay: HashAmount;
   totalHashCount: HashAmount;
-  hashflow: Record<string, HashAmount>;
+  hashflow: Record<string, Cashflow>;
 };
 
 const initialState: CalculatorInitialState = {

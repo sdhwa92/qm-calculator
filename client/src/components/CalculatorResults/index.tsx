@@ -47,7 +47,11 @@ const CalculatorResults = () => {
   };
 
   const renderResults = () => {
-    if (Object.keys(hashflow).length > 0) {
+    const values = Object.values(hashflow);
+    const lastValue = values.at(-1);
+    console.log(lastValue?.accumulatedIncome);
+
+    if (values.length > 0) {
       return (
         <div className="qmcal-px-4 sm:qmcal-px-6 lg:qmcal-px-8">
           <div className="sm:qmcal-flex sm:qmcal-items-center">
@@ -55,17 +59,30 @@ const CalculatorResults = () => {
               <h1 className="qmcal-text-xl qmcal-font-semibol">
                 투자현금흐름표
               </h1>
-              <p className="qmcal-mt-2 qmcal-text-sm qmcal-text-gray-200">
-                <strong>{initialAmount}</strong> 를 투자 후 매일{" "}
-                <strong>가속해시</strong>를 통해 채굴하여 얻은 수익을 모두 회수
-                했을때 <strong>{Object.keys(hashflow).length - 1}일</strong> 후{" "}
-                <strong>
-                  {getNumberOfDaysAfterFromADate(
-                    Object.keys(hashflow).length - 1
-                  )}
-                </strong>
-                이 손익분기 일 입니다.
-              </p>
+
+              {lastValue?.accumulatedIncome &&
+              lastValue?.accumulatedIncome >= initialAmount ? (
+                <p className="qmcal-mt-2 qmcal-text-sm qmcal-text-gray-200">
+                  <strong>{initialAmount}</strong> 를 투자 후 매일{" "}
+                  <strong>가속해시</strong>를 통해 채굴하여 얻은 수익을 모두
+                  회수 했을때{" "}
+                  <strong>{Object.keys(hashflow).length - 1}일</strong> 후{" "}
+                  <strong>
+                    {getNumberOfDaysAfterFromADate(
+                      Object.keys(hashflow).length - 1
+                    )}
+                  </strong>
+                  이 손익분기 일 입니다.
+                </p>
+              ) : (
+                <p className="qmcal-mt-2 qmcal-text-sm qmcal-text-gray-200">
+                  <strong>{initialAmount}</strong> 를 투자 후 매일{" "}
+                  <strong>가속해시</strong>를 통해 채굴하여 얻은 수익을 모두
+                  회수 했을때{" "}
+                  <strong>손익분기 일에 도달하실 수 없습니다.</strong>
+                </p>
+              )}
+
               <p className="qmcal-mt-2 qmcal-text-sm qmcal-text-gray-200">
                 *기본해시와 공유해시를 통해 채굴한 수익은 고려하지 않았습니다.
               </p>
