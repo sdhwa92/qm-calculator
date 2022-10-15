@@ -49,7 +49,6 @@ const CalculatorResults = () => {
   const renderResults = () => {
     const values = Object.values(hashflow);
     const lastValue = values.at(-1);
-    console.log(lastValue?.accumulatedIncome);
 
     if (values.length > 0) {
       return (
