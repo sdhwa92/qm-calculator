@@ -1,6 +1,9 @@
 import axios from "axios";
 
-const baseURL = "http://localhost:3000/api";
+const baseURL =
+  process.env.NODE_ENV === "production"
+    ? `${window.location.protocol}//${window.location.host}/api`
+    : "http://localhost:3000/api";
 
 export async function postCashflow(
   initialInvestmentAmount: number,
